@@ -29,7 +29,6 @@ import com.btk5h.skriptjson.Serializers;
 import com.btk5h.skriptjson.SkriptUtil;
 
 import org.bukkit.event.Event;
-import org.eclipse.jdt.annotation.Nullable;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -76,57 +75,57 @@ public class EffJSONToVariable extends Effect {
 
     try {
       Object parsed = new JSONParser().parse(json);
-      mapFirst(e, var.substring(0, var.length() - 3), parsed);
+      mapFirst(e, var.substring(0, var.length() - 3), parsed, this.isLocal);
     } catch (ParseException ex) {
       ex.printStackTrace();
     }
   }
 
-  private void setVariable(Event e, String name, Object obj) {
+  private static void setVariable(Event e, String name, Object obj, boolean isLocal) {
     Variables.setVariable(name.toLowerCase(Locale.ENGLISH), obj, e, isLocal);
   }
 
-  private void mapFirst(Event e, String name, Object obj) {
+  protected static void mapFirst(Event e, String name, Object obj, boolean isLocal) {
     if (obj instanceof JSONObject) {
-      handleObject(e, name, (JSONObject) obj);
+      handleObject(e, name, (JSONObject) obj, isLocal);
     } else if (obj instanceof JSONArray) {
-      handleArray(e, name, (JSONArray) obj);
+      handleArray(e, name, (JSONArray) obj, isLocal);
     } else {
-      setVariable(e, name, obj);
+      setVariable(e, name, obj, isLocal);
     }
   }
 
-  private void map(Event e, String name, Object obj) {
+  private static void map(Event e, String name, Object obj, boolean isLocal) {
     if (obj instanceof JSONObject) {
       if (((JSONObject) obj).containsKey("__javaclass__")
           || ((JSONObject) obj).containsKey("__skriptclass__")) {
-        setVariable(e, name, Serializers.deserialize(((JSONObject) obj)));
+        setVariable(e, name, Serializers.deserialize(((JSONObject) obj)), isLocal);
       } else {
-        setVariable(e, name, true);
-        handleObject(e, name, (JSONObject) obj);
+        setVariable(e, name, true, isLocal);
+        handleObject(e, name, (JSONObject) obj, isLocal);
       }
     } else if (obj instanceof JSONArray) {
-      setVariable(e, name, true);
-      handleArray(e, name, (JSONArray) obj);
+      setVariable(e, name, true, isLocal);
+      handleArray(e, name, (JSONArray) obj, isLocal);
     } else {
-      setVariable(e, name, obj);
+      setVariable(e, name, obj, isLocal);
     }
   }
 
   @SuppressWarnings("unchecked")
-  private void handleObject(Event e, String name, JSONObject obj) {
-    obj.keySet().forEach(key -> map(e, name + Variable.SEPARATOR + key, obj.get(key)));
+  private static void handleObject(Event e, String name, JSONObject obj, boolean isLocal) {
+    obj.keySet().forEach(key -> map(e, name + Variable.SEPARATOR + key, obj.get(key), isLocal));
   }
 
   @SuppressWarnings("unchecked")
-  private void handleArray(Event e, String name, JSONArray obj) {
+  private static void handleArray(Event e, String name, JSONArray obj, boolean isLocal) {
     for (int i = 0; i < obj.size(); i++) {
-      map(e, name + Variable.SEPARATOR + (i + 1), obj.get(i));
+      map(e, name + Variable.SEPARATOR + (i + 1), obj.get(i), isLocal);
     }
   }
 
   @Override
-  public String toString(@Nullable Event e, boolean debug) {
+  public String toString(Event e, boolean debug) {
     return json.toString(e, debug) + " => " + var.toString(e, debug);
   }
 

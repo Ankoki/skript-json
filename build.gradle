@@ -39,13 +39,14 @@ repositories {
     url 'https://oss.sonatype.org/content/groups/public/'
   }
   maven {
-    url 'http://maven.njol.ch/repo/'
+    url 'https://repo.skriptlang.org/releases/'
   }
 }
 
 dependencies {
-  compile 'org.spigotmc:spigot-api:1.11.2-R0.1-SNAPSHOT'
-  compile 'ch.njol:skript:2.2-SNAPSHOT'
+  compileOnly 'org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT'
+  compileOnly 'com.github.SkriptLang:Skript:2.7.0-beta1'
+  compileOnly 'com.googlecode.json-simple:json-simple:1.1.1'
 }
 
 task buildReadme(type: Javadoc) {

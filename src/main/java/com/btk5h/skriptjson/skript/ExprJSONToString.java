@@ -29,7 +29,6 @@ import com.btk5h.skriptjson.Serializers;
 import com.btk5h.skriptjson.SkriptUtil;
 
 import org.bukkit.event.Event;
-import org.eclipse.jdt.annotation.Nullable;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONAware;
 import org.json.simple.JSONObject;
@@ -165,8 +164,8 @@ public class ExprJSONToString extends SimpleExpression<String> {
   }
 
   @Override
-  public String toString(@Nullable Event e, boolean debug) {
-    return null;
+  public String toString(Event e, boolean debug) {
+    return "json form of " + var.toString(e, debug);
   }
 
   @SuppressWarnings({"unchecked", "Duplicates"})
