@@ -45,7 +45,7 @@ repositories {
 
 dependencies {
   compileOnly 'org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT'
-  compileOnly 'com.github.SkriptLang:Skript:2.7.0-beta1'
+  compileOnly 'com.github.SkriptLang:Skript:2.7.0-beta3'
   compileOnly 'com.googlecode.json-simple:json-simple:1.1.1'
 }
 

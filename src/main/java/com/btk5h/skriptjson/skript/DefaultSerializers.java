@@ -26,15 +26,16 @@
 package com.btk5h.skriptjson.skript;
 
 import com.btk5h.skriptjson.Serializers;
-
 import org.bukkit.Location;
 import org.json.simple.JSONObject;
 
 
 public class DefaultSerializers {
-  static {
-    Serializers.register(Location.class, loc -> new JSONObject(loc.serialize()),
-        Location::deserialize);
 
-  }
+	static {
+		Serializers.register(Location.class, loc -> new JSONObject(loc.serialize()),
+			Location::deserialize);
+
+	}
+
 }

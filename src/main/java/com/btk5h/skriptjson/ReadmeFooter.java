@@ -67,5 +67,4 @@ package com.btk5h.skriptjson;
  * @skriptdoc
  * @index -1
  */
-public interface ReadmeFooter {
-}
+public interface ReadmeFooter {}

@@ -25,51 +25,49 @@
 
 package com.btk5h.skriptjson;
 
+import ch.njol.skript.Skript;
+import ch.njol.skript.SkriptAddon;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
 
-import ch.njol.skript.Skript;
-import ch.njol.skript.SkriptAddon;
-
 /**
  * # skript-json
- *
+ * <p>
  * > Idiomatic JSON integration for Skript. Convert JSON into list variables and vice versa.
  */
 public class SkriptJSON extends JavaPlugin {
 
-  private static SkriptJSON instance;
-  private static SkriptAddon addonInstance;
+	private static SkriptJSON instance;
+	private static SkriptAddon addonInstance;
 
-  public SkriptJSON() {
-    if (instance == null) {
-      instance = this;
-    } else {
-      throw new IllegalStateException();
-    }
-  }
+	public SkriptJSON() {
+		if (instance == null) {
+			instance = this;
+		} else {
+			throw new IllegalStateException();
+		}
+	}
 
-  @Override
-  public void onEnable() {
-    try {
-      getAddonInstance().loadClasses("com.btk5h.skriptjson", "skript");
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
+	public static SkriptAddon getAddonInstance() {
+		if (addonInstance == null) {
+			addonInstance = Skript.registerAddon(getInstance());
+		}
+		return addonInstance;
+	}
 
-  public static SkriptAddon getAddonInstance() {
-    if (addonInstance == null) {
-      addonInstance = Skript.registerAddon(getInstance());
-    }
-    return addonInstance;
-  }
+	public static SkriptJSON getInstance() {
+		if (instance == null) {
+			throw new IllegalStateException();
+		}
+		return instance;
+	}
 
-  public static SkriptJSON getInstance() {
-    if (instance == null) {
-      throw new IllegalStateException();
-    }
-    return instance;
-  }
+	@Override
+	public void onEnable() {
+		try {
+			getAddonInstance().loadClasses("com.btk5h.skriptjson", "skript");
+		} catch (IOException ex) { ex.printStackTrace(); }
+	}
+
 }
